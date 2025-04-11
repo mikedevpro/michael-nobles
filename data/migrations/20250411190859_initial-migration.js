@@ -13,9 +13,14 @@ exports.up = async function(knex) {
   .createTable('steps', table => {
     table.increments('steps_id')
     table.string(step_text, 200).notNullable()
-    table.string(step_order, 200).notNullable()
-    table.integer('recipe_id').unsigned().notNullable()
-    table.foreign('recipe_id').references('recipes.recipe_id')
+    table.integer(step_number, 200).notNullable()
+    table.integer('recipe_id')
+      .unsigned()
+      .notNullable()
+      .references('recipe_id')
+      .inTable('recipes')
+      .onDelete('RESTRICT')
+      .onUpdate('RESTRICT')
   })
   .createTable('step_ingredients', table => {
     table.increments()
